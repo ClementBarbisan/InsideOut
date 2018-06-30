@@ -31,8 +31,6 @@ public class Scenario : MonoBehaviour {
         if (force || hit.collider.tag == ((Steps)step).ToString())
         {
             activationSteps[step].GetComponentInChildren<WindowOnVideo>().gameObject.transform.SetParent(Camera.main.transform);
-            Camera.main.GetComponentInChildren<WindowOnVideo>().gameObject.transform.position = Camera.main.transform.position + Camera.main.transform.forward * 0.5f;
-            Camera.main.GetComponentInChildren<WindowOnVideo>().gameObject.transform.rotation = Quaternion.Euler(new Vector3(270, 180, 0));
             step++;
             activationSteps[step].SetActive(true);
         }
@@ -43,6 +41,7 @@ public class Scenario : MonoBehaviour {
         if (force || hit.collider.tag == ((Steps)step).ToString())
         {
             activationSteps[step].SetActive(false);
+            Camera.main.GetComponentInChildren<WindowOnVideo>().gameObject.SetActive(false);
             step++;
         }
     }
@@ -56,7 +55,7 @@ public class Scenario : MonoBehaviour {
         stepsAction[2] = End;
         if (debugWindow)
         {
-            activationSteps[(int)Steps.Started].SetActive(true);
+ 
             step = 1;
             return;
         }
@@ -79,6 +78,13 @@ public class Scenario : MonoBehaviour {
 #if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.N))
             stepsAction[step](new RaycastHit(), true);
+        if (Input.GetMouseButtonDown(0))
+        {
+            RaycastHit hit;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out hit))
+                stepsAction[step](hit);
+        }
 #endif
         if (Input.GetKeyDown(KeyCode.Escape))
             Application.Quit();

@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: DistordMat
-  m_Shader: {fileID: 4800000, guid: 8f57e93985ea5954aa1506e8d5f41356, type: 3}
+  m_Shader: {fileID: 4800000, guid: 684a6ee8027f1c6469a0dea7d9ab32a4, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -73,5 +73,5 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 0.7205882, g: 0, b: 0, a: 1}
-    - _ColorHSBC: {r: 0.07396196, g: 0.36385873, b: 0.83823526, a: 1}
+    - _ColorHSBC: {r: 0, g: 0.5448277, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}

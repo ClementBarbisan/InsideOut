@@ -1,4 +1,6 @@
-
+*.apk
+InsideOut/
 Library/
-
+obj/
 Temp/
+.vs/

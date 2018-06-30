@@ -7,6 +7,7 @@ public class WindowOnVideo : MonoBehaviour {
     public Texture2D marker;
     public Vector2 limits = new Vector2(78, 8.65f);
     public Vector2 size = new Vector2(16, 9);
+    public float speed = 1.0f;
     private Texture webcam;
     private Renderer renderer = null;
     private BackgroundVideo background;
@@ -31,32 +32,37 @@ public class WindowOnVideo : MonoBehaviour {
         limits.x = background.transform.position.z;
         if (backgroundPlane.Material.mainTexture != null && webcam == null)
             webcam = backgroundPlane.Material.mainTexture;
-        if (Scenario.step >= (int)Scenario.Steps.Started && renderer.material.mainTexture != webcam)
+        if (Scenario.step > (int)Scenario.Steps.Started && renderer.material.mainTexture != webcam)
         {
             webcam = backgroundPlane.Material.mainTexture;
             renderer.material.mainTexture = webcam;
         }
-        else if (Scenario.step < (int)Scenario.Steps.Started && renderer.material.mainTexture != marker)
+        else if (Scenario.step <= (int) Scenario.Steps.Started && renderer.material.mainTexture != marker)
             renderer.material.mainTexture = marker;
-        if (Scenario.step < (int)Scenario.Steps.Started)
+        if (Scenario.step <= (int) Scenario.Steps.Started)
             return;
+        if (Scenario.step == (int)Scenario.Steps.End)
+        {
+            float step = speed * Time.deltaTime;
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(new Vector3(270, 180, 0)), step * 35);
+            transform.position += ((Camera.main.transform.position + Camera.main.transform.forward * 0.6f) - transform.position) * step;
+        }
         //compute scale with ease out
         if (transform.parent == Camera.main.transform)
-            scale = Mathf.Clamp01(Mathf.Pow(1 - Mathf.Clamp01(transform.position.z - limits.y), 5 * (1 - Mathf.Clamp01(transform.position.z - limits.y))));
+            scale = Mathf.Clamp01(Mathf.Pow(1 - Mathf.Clamp01(transform.position.z - limits.y), 4 * (1 - Mathf.Clamp01(transform.position.z - limits.y))));
         else
             scale = Mathf.Clamp01(Mathf.Pow(1 - Mathf.Clamp01(transform.parent.position.z - limits.y), 5 * (1 - Mathf.Clamp01(transform.parent.position.z - limits.y))));
         renderer.material.mainTextureScale = new Vector2(scale, scale);
-        //offsetX = 0.5f * (1 - scale) - transform.parent.position.x / size.x * Mathf.Pow((1 - scale), 5 * (1 - scale));
-        //offsetY = 0.5f * (1 - scale) - transform.parent.position.y / size.y * Mathf.Pow((1 - scale), 5 * (1 - scale));
         if (transform.parent == Camera.main.transform)
         {
-            return;
+            offsetX = 0.5f * (1 - scale);
+            offsetY = 0.5f * (1 - scale);
         }
         else
         {
             offsetX = 0.5f * (1 - scale) + transform.parent.position.x / transform.localScale.x * Mathf.Pow((1 - scale), 5 * (1 - scale));
             offsetY = 0.5f * (1 - scale) - transform.parent.position.y / transform.localScale.z * Mathf.Pow((1 - scale), 5 * (1 - scale));
-            renderer.material.mainTextureOffset = new Vector2(offsetX, offsetY);
         }
+        renderer.material.mainTextureOffset = new Vector2(offsetX, offsetY);
     }
 }
