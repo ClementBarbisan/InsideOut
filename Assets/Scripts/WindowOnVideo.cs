@@ -47,13 +47,13 @@ public class WindowOnVideo : MonoBehaviour {
         {
             float step = speed * Time.deltaTime;
             transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(new Vector3(270, 180, 0)), step * 35);
-            transform.position += ((Camera.main.transform.position + Camera.main.transform.forward * 0.6f) - transform.position) * step;
+            transform.position += ((Camera.main.transform.position + Camera.main.transform.forward * 4.5f) - transform.position) * step;
         }
         //compute scale with ease out
         if (transform.parent == Camera.main.transform)
-            scale = Mathf.Clamp01(Mathf.Pow(1 - Mathf.Clamp01(transform.position.z - limits.y), 4 * (1 - Mathf.Clamp01(transform.position.z - limits.y))));
+            scale = Mathf.Clamp01(Mathf.Pow((limits.x - (Mathf.Pow(transform.position.z, 3) - limits.y)) / limits.x, 3 * (limits.x - (Mathf.Pow(transform.position.z, 3) - limits.y)) / limits.x));
         else
-            scale = Mathf.Clamp01(Mathf.Pow(1 - Mathf.Clamp01(transform.parent.position.z - limits.y), 5 * (1 - Mathf.Clamp01(transform.parent.position.z - limits.y))));
+            scale = Mathf.Pow((limits.x - (Mathf.Pow(transform.parent.position.z, 2) - limits.y)) / limits.x, 6 * (limits.x - (Mathf.Pow(transform.parent.position.z, 2) - limits.y)) / limits.x);
         render.material.mainTextureScale = new Vector2(scale, scale);
         if (transform.parent == Camera.main.transform)
         {
@@ -62,21 +62,11 @@ public class WindowOnVideo : MonoBehaviour {
         }
         else
         {
-            offsetX = 0.5f * (1 - scale) + transform.parent.position.x / transform.localScale.x * Mathf.Pow((1 - scale), 5 * (1 - scale));
-            offsetY = 0.5f * (1 - scale) - transform.parent.position.y / transform.localScale.z * Mathf.Pow((1 - scale), 5 * (1 - scale));
+            offsetX = 0.5f * (1 - scale) + transform.parent.position.x / (size.x * (1 - scale));
+            offsetY = 0.5f * (1 - scale) - transform.parent.position.y / (size.y * (1 - scale));
         }
         render.material.mainTextureOffset = new Vector2(offsetX, offsetY);
     }
 
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.gameObject != this.gameObject)
-            insideBox = other.gameObject;
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject == insideBox)
-            insideBox = null;
-    }
+    
 }

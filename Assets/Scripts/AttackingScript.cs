@@ -6,6 +6,7 @@ public class AttackingScript : MonoBehaviour {
     public GameObject currentEnemy = null;
     public float distanceAttack = 2.5f;
     public float speed = 1f;
+    public bool isAttacking = false;
     private Quaternion attendedRotation = Quaternion.identity;
     // Use this for initialization
     void Start () {
@@ -16,6 +17,7 @@ public class AttackingScript : MonoBehaviour {
 	void Update () {
         if (currentEnemy && Vector3.Distance(Camera.main.transform.position, currentEnemy.transform.position) < distanceAttack)
         {
+            isAttacking = true;
             if (Mathf.Abs(currentEnemy.transform.rotation.eulerAngles.y - attendedRotation.eulerAngles.y) > 20f)
             {
                 float step = speed * Time.deltaTime;
@@ -28,5 +30,7 @@ public class AttackingScript : MonoBehaviour {
             else
                 currentEnemy.GetComponent<Animator>().SetTrigger("Attack");
         }
+        else
+            isAttacking = false;
 	}
 }

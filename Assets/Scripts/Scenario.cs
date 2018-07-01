@@ -67,7 +67,7 @@ public class Scenario : MonoBehaviour {
         {
             stepsAction[step](new RaycastHit(), true);
             step = 1;
-            stepsAction[step](new RaycastHit(), true);
+            //stepsAction[step](new RaycastHit(), true);
             return;
         }
         activationSteps[step].SetActive(true);

@@ -48,7 +48,6 @@ public class BreakableObject:MonoBehaviour{
 	}
 	
 	public IEnumerator breakObject() {// breaks object
-		
 	    if (!broken) {
 	    
 	    	if(this.GetComponent<AudioSource>() != null){

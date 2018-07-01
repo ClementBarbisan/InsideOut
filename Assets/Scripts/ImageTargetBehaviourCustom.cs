@@ -6,12 +6,14 @@ using Vuforia;
 public class ImageTargetBehaviourCustom : ImageTargetBehaviour {
     public GameObject[] models;
     private AttackingScript attackScript;
+    private MovingScript moveScript;
     private SkinnedMeshRenderer[] renders;
     private Collider[] colliders;
     private int currentIndex = -1;
 	// Use this for initialization
 	void Start () {
         attackScript = GetComponent<AttackingScript>();
+        moveScript = GetComponent<MovingScript>();
         renders = new SkinnedMeshRenderer[models.Length];
         colliders = new Collider[models.Length];
         for (int i = 0; i < models.Length; i++)
@@ -34,6 +36,7 @@ public class ImageTargetBehaviourCustom : ImageTargetBehaviour {
                     renders[currentIndex].enabled = true;
                     colliders[currentIndex].enabled = true;
                     attackScript.currentEnemy = models[currentIndex];
+                    moveScript.currentEnemy = models[currentIndex];
                 }
                 else
                 {
@@ -49,6 +52,9 @@ public class ImageTargetBehaviourCustom : ImageTargetBehaviour {
                 renders[i].enabled = false;
                 colliders[i].enabled = false;
                 attackScript.currentEnemy = null;
+                if (moveScript.currentEnemy != null)
+                    moveScript.currentEnemy.GetComponent<Animator>().SetBool("Move", false);
+                moveScript.currentEnemy = null;
             }
             currentIndex = -1;
         }
