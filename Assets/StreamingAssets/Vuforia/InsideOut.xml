@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <QCARConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="qcar_config.xsd">
   <Tracking>
+    <ImageTarget name="enemyMark" size="0.150000 0.150000" />
     <ImageTarget name="vaseEndMark" size="15.000000 13.557377" />
     <ImageTarget name="vaseBeginMark" size="15.000000 12.772622" />
     <ImageTarget name="windowMark" size="0.130000 0.068064" />

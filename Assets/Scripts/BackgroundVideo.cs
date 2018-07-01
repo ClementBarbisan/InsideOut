@@ -8,13 +8,13 @@ public class BackgroundVideo : MonoBehaviour
 {
     public Material normal;
     public Material distord;
-    private Renderer renderer = null;
+    private Renderer render = null;
     private BackgroundPlaneBehaviour backgroundPlane;
     // Use this for initialization
     void Start()
     {
-        renderer = gameObject.GetComponent<Renderer>();
-        renderer.material = normal;
+        render = gameObject.GetComponent<Renderer>();
+        render.material = normal;
         backgroundPlane = Camera.main.GetComponentInChildren<BackgroundPlaneBehaviour>();
     }
 
@@ -22,17 +22,17 @@ public class BackgroundVideo : MonoBehaviour
     void Update()
     {
         transform.position = new Vector3(0, 0, transform.localScale.z / 2 / Mathf.Tan(Mathf.Deg2Rad * (Camera.main.fieldOfView / 2)) * 10);
-        if (backgroundPlane.Material.mainTexture != null && renderer.material.mainTexture == null)
-            renderer.material.mainTexture = backgroundPlane.Material.mainTexture;
-        if (Scenario.step == (int)Scenario.Steps.Started && renderer.material != distord)
+        if (backgroundPlane.Material.mainTexture != null && render.material.mainTexture == null)
+            render.material.mainTexture = backgroundPlane.Material.mainTexture;
+        if (Scenario.step == (int)Scenario.Steps.Started && render.material != distord)
         {
-            renderer.material = distord;
-            renderer.material.mainTexture = backgroundPlane.Material.mainTexture;
+            render.material = distord;
+            render.material.mainTexture = backgroundPlane.Material.mainTexture;
         }
-        if (Scenario.step > (int)Scenario.Steps.End && renderer.material != normal)
+        if (Scenario.step > (int)Scenario.Steps.End && render.material != normal)
         {
-            renderer.material = normal;
-            renderer.material.mainTexture = backgroundPlane.Material.mainTexture;
+            render.material = normal;
+            render.material.mainTexture = backgroundPlane.Material.mainTexture;
         }
     }
 }

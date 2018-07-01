@@ -223,7 +223,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Breakable Objects\Scripts\BreakableObject.cs" />
+    <Compile Include="Assets\Breakable Objects\Scripts\Demo\MouseOrbitCycle.cs" />
+    <Compile Include="Assets\Breakable Objects\Scripts\Demo\respawner.cs" />
+    <Compile Include="Assets\Breakable Objects\Scripts\Demo\RollingBall.cs" />
+    <Compile Include="Assets\Breakable Objects\Scripts\Demo\Rotator.cs" />
+    <Compile Include="Assets\Scripts\AttackingScript.cs" />
     <Compile Include="Assets\Scripts\BackgroundVideo.cs" />
+    <Compile Include="Assets\Scripts\ImageTargetBehaviourCustom.cs" />
+    <Compile Include="Assets\Scripts\MovingScript.cs" />
     <Compile Include="Assets\Scripts\Scenario.cs" />
     <Compile Include="Assets\Scripts\SwitchMaterials.cs" />
     <Compile Include="Assets\Scripts\WindowOnVideo.cs" />
@@ -232,6 +240,7 @@
     <Compile Include="Assets\Vuforia\Scripts\DefaultTrackableEventHandler.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Breakable Objects\Breakable Vase\Breakable Vase - Readme.txt" />
     <None Include="Assets\Editor\Vuforia\CylinderTargetTextures\VuforiaMars_Images\authoringinfo.xml" />
     <None Include="Assets\Editor\Vuforia\TargetsetData\VuforiaMars_Object_info.xml" />
     <None Include="Assets\Editor\Vuforia\VuforiaMars_VuMark\authoringinfo.xml" />

@@ -183,12 +183,18 @@
 			return outputColor;
 		}
 
+		float rand(in float2 uv)
+		{
+			float2 noise = (frac(sin(dot(uv, float2(12.9898, 78.233)*2.0)) * 43758.5453));
+			return abs(noise.x + noise.y) * 0.5;
+		}
+
 		void vert(inout appdata_full v, out Input o) {
 			UNITY_INITIALIZE_OUTPUT(Input, o);
 			fixed4 valueBump = tex2Dlod(_BumpMap, float4(v.texcoord.xy, 0, 0));
-			v.vertex.x += _SinTime.x * _CosTime.y * v.vertex.x * valueBump.x;
-			v.vertex.y += _SinTime.y * _CosTime.x * v.vertex.y * valueBump.y / 2;
-			v.vertex.z += _SinTime.x * _CosTime.x * v.vertex.z * valueBump.z;
+			v.vertex.x += _SinTime.y * _CosTime.z * rand(float2(v.vertex.x, v.vertex.x)) / 10 * valueBump.x;
+			v.vertex.y += _SinTime.z * _CosTime.y * rand(float2(v.vertex.y, v.vertex.y)) / 10 * valueBump.y;
+			v.vertex.z += _SinTime.y * _CosTime.z * rand(float2(v.vertex.z, v.vertex.z)) / 10 * valueBump.z;
 		}
 
 		void surf (Input IN, inout SurfaceOutputStandard o) {

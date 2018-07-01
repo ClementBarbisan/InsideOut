@@ -16,13 +16,22 @@ public class Scenario : MonoBehaviour {
     public GameObject[] activationSteps;
     private Func[] stepsAction;
 
+    IEnumerator WaitToDestroyingItem(BreakableObject objectBreak)
+    {
+        while (!objectBreak.isDestroy)
+            yield return null;
+        //activationSteps[step].SetActive(false);
+        step++;
+        activationSteps[step].SetActive(true);
+    }
+
     void StartInside(RaycastHit hit, bool force = false)
     {
         if (force || hit.collider.tag == ((Steps)step).ToString())
         {
-            activationSteps[step].SetActive(false);
-            step++;
-            activationSteps[step].SetActive(true);
+            BreakableObject objectBreakable = activationSteps[step].GetComponentInChildren<BreakableObject>();
+            objectBreakable.ClickToDestroy();
+            StartCoroutine(WaitToDestroyingItem(objectBreakable));
         }
     }
 
@@ -38,9 +47,10 @@ public class Scenario : MonoBehaviour {
 
     void End(RaycastHit hit, bool force = false)
     {
-        if (force || hit.collider.tag == ((Steps)step).ToString())
+        if (force || (hit.collider.tag == ((Steps)step).ToString() && hit.collider.GetComponentInChildren<SwitchMaterials>().isBreakable))
         {
-            activationSteps[step].SetActive(false);
+            activationSteps[step].GetComponentInChildren<BreakableObject>().ClickToDestroy();
+            //activationSteps[step].SetActive(false);
             Camera.main.GetComponentInChildren<WindowOnVideo>().gameObject.SetActive(false);
             step++;
         }
@@ -55,8 +65,9 @@ public class Scenario : MonoBehaviour {
         stepsAction[2] = End;
         if (debugWindow)
         {
- 
+            stepsAction[step](new RaycastHit(), true);
             step = 1;
+            stepsAction[step](new RaycastHit(), true);
             return;
         }
         activationSteps[step].SetActive(true);

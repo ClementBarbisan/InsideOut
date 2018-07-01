@@ -8,8 +8,10 @@ public class WindowOnVideo : MonoBehaviour {
     public Vector2 limits = new Vector2(78, 8.65f);
     public Vector2 size = new Vector2(16, 9);
     public float speed = 1.0f;
+    public BoxCollider colliderGameObject = null;
+    public GameObject insideBox = null;
     private Texture webcam;
-    private Renderer renderer = null;
+    private Renderer render = null;
     private BackgroundVideo background;
     private BackgroundPlaneBehaviour backgroundPlane;
     private float scale = 1;
@@ -18,8 +20,8 @@ public class WindowOnVideo : MonoBehaviour {
     // Use this for initialization
     void Start () {
         background = Camera.main.GetComponentInChildren<BackgroundVideo>();
-        renderer = gameObject.GetComponent<Renderer>();
-        renderer.material.mainTexture = marker;  
+        render = gameObject.GetComponent<Renderer>();
+        render.material.mainTexture = marker;  
         size.x = background.gameObject.transform.localScale.x;
         size.y = background.gameObject.transform.localScale.z;
         limits.x = background.transform.position.z;
@@ -32,13 +34,13 @@ public class WindowOnVideo : MonoBehaviour {
         limits.x = background.transform.position.z;
         if (backgroundPlane.Material.mainTexture != null && webcam == null)
             webcam = backgroundPlane.Material.mainTexture;
-        if (Scenario.step > (int)Scenario.Steps.Started && renderer.material.mainTexture != webcam)
+        if (Scenario.step > (int)Scenario.Steps.Started && render.material.mainTexture != webcam)
         {
             webcam = backgroundPlane.Material.mainTexture;
-            renderer.material.mainTexture = webcam;
+            render.material.mainTexture = webcam;
         }
-        else if (Scenario.step <= (int) Scenario.Steps.Started && renderer.material.mainTexture != marker)
-            renderer.material.mainTexture = marker;
+        else if (Scenario.step <= (int) Scenario.Steps.Started && render.material.mainTexture != marker)
+            render.material.mainTexture = marker;
         if (Scenario.step <= (int) Scenario.Steps.Started)
             return;
         if (Scenario.step == (int)Scenario.Steps.End)
@@ -52,7 +54,7 @@ public class WindowOnVideo : MonoBehaviour {
             scale = Mathf.Clamp01(Mathf.Pow(1 - Mathf.Clamp01(transform.position.z - limits.y), 4 * (1 - Mathf.Clamp01(transform.position.z - limits.y))));
         else
             scale = Mathf.Clamp01(Mathf.Pow(1 - Mathf.Clamp01(transform.parent.position.z - limits.y), 5 * (1 - Mathf.Clamp01(transform.parent.position.z - limits.y))));
-        renderer.material.mainTextureScale = new Vector2(scale, scale);
+        render.material.mainTextureScale = new Vector2(scale, scale);
         if (transform.parent == Camera.main.transform)
         {
             offsetX = 0.5f * (1 - scale);
@@ -63,6 +65,18 @@ public class WindowOnVideo : MonoBehaviour {
             offsetX = 0.5f * (1 - scale) + transform.parent.position.x / transform.localScale.x * Mathf.Pow((1 - scale), 5 * (1 - scale));
             offsetY = 0.5f * (1 - scale) - transform.parent.position.y / transform.localScale.z * Mathf.Pow((1 - scale), 5 * (1 - scale));
         }
-        renderer.material.mainTextureOffset = new Vector2(offsetX, offsetY);
+        render.material.mainTextureOffset = new Vector2(offsetX, offsetY);
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject != this.gameObject)
+            insideBox = other.gameObject;
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject == insideBox)
+            insideBox = null;
     }
 }
