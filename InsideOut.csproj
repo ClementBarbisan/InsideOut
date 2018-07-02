@@ -229,6 +229,7 @@
     <Compile Include="Assets\Breakable Objects\Scripts\Demo\RollingBall.cs" />
     <Compile Include="Assets\Breakable Objects\Scripts\Demo\Rotator.cs" />
     <Compile Include="Assets\InsideBox.cs" />
+    <Compile Include="Assets\Intro.cs" />
     <Compile Include="Assets\Scripts\AttackingScript.cs" />
     <Compile Include="Assets\Scripts\BackgroundVideo.cs" />
     <Compile Include="Assets\Scripts\ImageTargetBehaviourCustom.cs" />

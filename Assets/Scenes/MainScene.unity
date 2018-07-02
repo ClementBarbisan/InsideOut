@@ -542,7 +542,7 @@ MonoBehaviour:
   mPreserveChildSize: 0
   mInitializedInEditor: 1
   mDataSetPath: Vuforia/InsideOut.xml
-  mExtendedTracking: 0
+  mExtendedTracking: 1
   mInitializeSmartTerrain: 0
   mReconstructionToInitialize: {fileID: 0}
   mSmartTerrainOccluderBoundsMin: {x: 0, y: 0, z: 0}

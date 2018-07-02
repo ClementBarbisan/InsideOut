@@ -20,6 +20,11 @@ public class BreakableObject:MonoBehaviour{
 	bool broken;                                    //Determines if the object has been broken or not 
     public bool isDestroy = false;
 
+    private void Start()
+    {
+        mouseClickDestroy = !Scenario.useFingers;
+    }
+
     public void OnCollisionEnter(Collision collision) {
 	    if (collision.relativeVelocity.magnitude > durability) {
 	        triggerBreak();

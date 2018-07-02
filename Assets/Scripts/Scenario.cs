@@ -2,17 +2,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Scenario : MonoBehaviour {
-    public delegate void Func(RaycastHit hit, bool force = false);
-    public bool debugWindow = true;
+
     public enum Steps
     {
         Start = 0,
         Started = 1,
         End = 2
     }
+
+    public delegate void Func(RaycastHit hit, bool force = false);
+
+    public static bool useFingers = false;
     public static int step = 0;
+
+    public bool debugWindow = true;
     public GameObject[] activationSteps;
     private Func[] stepsAction;
 
@@ -53,12 +59,20 @@ public class Scenario : MonoBehaviour {
             //activationSteps[step].SetActive(false);
             Camera.main.GetComponentInChildren<WindowOnVideo>().gameObject.SetActive(false);
             step++;
+            SceneManager.LoadScene(2);
         }
     }
 
     // Use this for initialization
     void Start () {
-        Camera.main.fieldOfView = 60;
+        step = 0;
+        if (PlayerPrefs.HasKey("version"))
+        {
+            if (PlayerPrefs.GetString("version") == "Fingers")
+                useFingers = true;
+            else
+                useFingers = false;
+        }
         stepsAction = new Func[3];
         stepsAction[0] = StartInside;
         stepsAction[1] = TakeInHand;
@@ -78,23 +92,29 @@ public class Scenario : MonoBehaviour {
     // Update is called once per frame
     void Update () {
 #if UNITY_ANDROID
-        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
+        if (!useFingers)
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.GetTouch(0).position);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit))
-                stepsAction[step](hit);
+            if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
+            {
+                Ray ray = Camera.main.ScreenPointToRay(Input.GetTouch(0).position);
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit))
+                    stepsAction[step](hit);
+            }
         }
 #endif
 #if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.N))
             stepsAction[step](new RaycastHit(), true);
-        if (Input.GetMouseButtonDown(0))
+        if (!useFingers)
         {
-            RaycastHit hit;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out hit))
-                stepsAction[step](hit);
+            if (Input.GetMouseButtonDown(0))
+            {
+                RaycastHit hit;
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                if (Physics.Raycast(ray, out hit))
+                    stepsAction[step](hit);
+            }
         }
 #endif
         if (Input.GetKeyDown(KeyCode.Escape))

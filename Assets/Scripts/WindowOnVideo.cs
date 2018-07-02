@@ -19,6 +19,8 @@ public class WindowOnVideo : MonoBehaviour {
     private float offsetY = 0;
     // Use this for initialization
     void Start () {
+        if (Scenario.useFingers)
+            transform.SetParent(null, false);
         background = Camera.main.GetComponentInChildren<BackgroundVideo>();
         render = gameObject.GetComponent<Renderer>();
         render.material.mainTexture = marker;  
@@ -50,12 +52,12 @@ public class WindowOnVideo : MonoBehaviour {
             transform.position += ((Camera.main.transform.position + Camera.main.transform.forward * 4.5f) - transform.position) * step;
         }
         //compute scale with ease out
-        if (transform.parent == Camera.main.transform)
+        if (!Scenario.useFingers)
             scale = Mathf.Clamp01(Mathf.Pow((limits.x - (Mathf.Pow(transform.position.z, 3) - limits.y)) / limits.x, 3 * (limits.x - (Mathf.Pow(transform.position.z, 3) - limits.y)) / limits.x));
         else
             scale = Mathf.Pow((limits.x - (Mathf.Pow(transform.parent.position.z, 2) - limits.y)) / limits.x, 6 * (limits.x - (Mathf.Pow(transform.parent.position.z, 2) - limits.y)) / limits.x);
         render.material.mainTextureScale = new Vector2(scale, scale);
-        if (transform.parent == Camera.main.transform)
+        if (!Scenario.useFingers)
         {
             offsetX = 0.5f * (1 - scale);
             offsetY = 0.5f * (1 - scale);
