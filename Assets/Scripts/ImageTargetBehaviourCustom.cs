@@ -27,10 +27,9 @@ public class ImageTargetBehaviourCustom : ImageTargetBehaviour {
     {
         base.OnTrackerUpdate(newStatus);
         
-        if (newStatus == Status.TRACKED && currentIndex == -1 || newStatus == Status.EXTENDED_TRACKED && currentIndex > -1)
+        if (newStatus == Status.TRACKED && currentIndex == -1)
         {
-            if (currentIndex == -1)
-                currentIndex = Random.Range(0, models.Length);
+            currentIndex = Random.Range(0, models.Length);
             for (int i = 0; i < models.Length; i++)
             {
                 if (i == currentIndex)
@@ -64,6 +63,23 @@ public class ImageTargetBehaviourCustom : ImageTargetBehaviour {
 
     // Update is called once per frame
     void Update () {
-		
+        if (currentIndex > -1)
+        {
+            for (int i = 0; i < models.Length; i++)
+            {
+                if (i == currentIndex)
+                {
+                    renders[currentIndex].enabled = true;
+                    colliders[currentIndex].enabled = true;
+                    attackScript.currentEnemy = models[currentIndex];
+                    moveScript.currentEnemy = models[currentIndex];
+                }
+                else
+                {
+                    renders[i].enabled = false;
+                    colliders[i].enabled = false;
+                }
+            }
+        }
 	}
 }
