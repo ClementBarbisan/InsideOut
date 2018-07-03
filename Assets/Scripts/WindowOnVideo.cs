@@ -26,11 +26,20 @@ public class WindowOnVideo : MonoBehaviour {
         size.y = background.gameObject.transform.localScale.z;
         limits.x = background.transform.position.z;
         limits.y = Mathf.Sqrt(Mathf.Pow(size.y / 2, 2) + Mathf.Pow(limits.x, 2)) / (size.y) * transform.parent.localScale.z * transform.localScale.z;
-        backgroundPlane = Camera.main.GetComponentInChildren<BackgroundPlaneBehaviour>(); 
+        backgroundPlane = Camera.main.GetComponentInChildren<BackgroundPlaneBehaviour>();
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    private void LateUpdate()
+    {
+        if (Scenario.useFingers)
+        {
+            transform.rotation = Quaternion.Euler(270, 0, 180);
+            //transform.localPosition = Vector3.Scale(new Vector3(1.5f, 0.5f, 0), transform.parent.forward);
+        }
+    }
+
+    // Update is called once per frame
+    void Update () {
         limits.x = background.transform.position.z;
         if (backgroundPlane.Material.mainTexture != null && webcam == null)
             webcam = backgroundPlane.Material.mainTexture;
@@ -51,9 +60,11 @@ public class WindowOnVideo : MonoBehaviour {
         }
         //compute scale with ease out
         if (!Scenario.useFingers)
-            scale = Mathf.Clamp01(Mathf.Pow((limits.x - (Mathf.Pow(transform.position.z, 3) - limits.y)) / limits.x, 3 * (limits.x - (Mathf.Pow(transform.position.z, 3) - limits.y)) / limits.x));
+            //scale = Mathf.Clamp01(Mathf.Pow((limits.x - (Mathf.Pow(transform.position.z, 3) - limits.y)) / limits.x, 3 * (limits.x - (Mathf.Pow(transform.position.z, 3) - limits.y)) / limits.x));
+            scale = limits.y / transform.position.z;
         else
-            scale = Mathf.Pow((limits.x - (Mathf.Pow(transform.parent.position.z, 2) - limits.y)) / limits.x, 7 * (limits.x - (Mathf.Pow(transform.parent.position.z, 2) - limits.y)) / limits.x);
+            //scale = Mathf.Pow((limits.x - (Mathf.Pow(transform.parent.position.z, 2) - limits.y)) / limits.x, 7 * (limits.x - (Mathf.Pow(transform.parent.position.z, 2) - limits.y)) / limits.x);
+            scale = Mathf.Clamp01(limits.y / transform.parent.position.z);
         render.material.mainTextureScale = new Vector2(scale, scale);
         if (!Scenario.useFingers)
         {
@@ -62,8 +73,8 @@ public class WindowOnVideo : MonoBehaviour {
         }
         else
         {
-            offsetX = 0.5f * (1 - scale) + transform.parent.position.x / (size.x * (1 - scale));
-            offsetY = 0.5f * (1 - scale) - transform.parent.position.y / (size.y * (1 - scale));
+            offsetX = Mathf.Clamp01(0.5f * (1 - scale) + (transform.position.x * transform.parent.localScale.x) / (size.x * (1 - scale)) + (transform.parent.position.x * transform.localScale.x) / (size.x * (1 - scale)));
+            offsetY = Mathf.Clamp01(0.5f * (1 - scale) - (transform.position.y * transform.parent.localScale.z) / (size.y * (1 - scale)) - (transform.parent.position.y * transform.localScale.z) / (size.y * (1 - scale)));
         }
         render.material.mainTextureOffset = new Vector2(offsetX, offsetY);
     }
