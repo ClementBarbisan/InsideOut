@@ -19,8 +19,6 @@ public class WindowOnVideo : MonoBehaviour {
     private float offsetY = 0;
     // Use this for initialization
     void Start () {
-        if (Scenario.useFingers)
-            transform.SetParent(null, false);
         background = Camera.main.GetComponentInChildren<BackgroundVideo>();
         render = gameObject.GetComponent<Renderer>();
         render.material.mainTexture = marker;  
@@ -45,7 +43,7 @@ public class WindowOnVideo : MonoBehaviour {
             render.material.mainTexture = marker;
         if (Scenario.step <= (int) Scenario.Steps.Started)
             return;
-        if (Scenario.step == (int)Scenario.Steps.End)
+        if (Scenario.step == (int)Scenario.Steps.End && !Scenario.useFingers)
         {
             float step = speed * Time.deltaTime;
             transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(new Vector3(270, 180, 0)), step * 35);
@@ -55,7 +53,7 @@ public class WindowOnVideo : MonoBehaviour {
         if (!Scenario.useFingers)
             scale = Mathf.Clamp01(Mathf.Pow((limits.x - (Mathf.Pow(transform.position.z, 3) - limits.y)) / limits.x, 3 * (limits.x - (Mathf.Pow(transform.position.z, 3) - limits.y)) / limits.x));
         else
-            scale = Mathf.Pow((limits.x - (Mathf.Pow(transform.parent.position.z, 2) - limits.y)) / limits.x, 6 * (limits.x - (Mathf.Pow(transform.parent.position.z, 2) - limits.y)) / limits.x);
+            scale = Mathf.Pow((limits.x - (Mathf.Pow(transform.parent.position.z, 2) - limits.y)) / limits.x, 7 * (limits.x - (Mathf.Pow(transform.parent.position.z, 2) - limits.y)) / limits.x);
         render.material.mainTextureScale = new Vector2(scale, scale);
         if (!Scenario.useFingers)
         {

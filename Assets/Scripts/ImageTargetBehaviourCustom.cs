@@ -26,9 +26,11 @@ public class ImageTargetBehaviourCustom : ImageTargetBehaviour {
     public override void OnTrackerUpdate(Status newStatus)
     {
         base.OnTrackerUpdate(newStatus);
-        if (newStatus == Status.TRACKED && currentIndex == -1)
+        
+        if (newStatus == Status.TRACKED && currentIndex == -1 || newStatus == Status.EXTENDED_TRACKED && currentIndex > -1)
         {
-            currentIndex = Random.Range(0, models.Length);
+            if (currentIndex == -1)
+                currentIndex = Random.Range(0, models.Length);
             for (int i = 0; i < models.Length; i++)
             {
                 if (i == currentIndex)

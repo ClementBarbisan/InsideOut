@@ -30,8 +30,9 @@ public class BreakableObjectEditor: Editor {
     	target_cs.explosiveForce = EditorGUILayout.FloatField("Fragment Force" , target_cs.explosiveForce);
     	EditorGUILayout.Space();
     	EditorGUILayout.LabelField("How hard must object be hit before it breaks", EditorStyles.miniLabel);   	
-    	target_cs.durability = EditorGUILayout.FloatField("Object Durability" , target_cs.durability);	
-    	target_cs.mouseClickDestroy = EditorGUILayout.Toggle("Click To Break Object" , target_cs.mouseClickDestroy);
+    	target_cs.durability = EditorGUILayout.FloatField("Object Durability" , target_cs.durability);
+        target_cs.brokeOntouch = EditorGUILayout.Toggle("Touch To Break Object", target_cs.brokeOntouch);
+        target_cs.mouseClickDestroy = EditorGUILayout.Toggle("Click To Break Object" , target_cs.mouseClickDestroy);
         if (GUI.changed)
             EditorUtility.SetDirty (target_cs);
     }

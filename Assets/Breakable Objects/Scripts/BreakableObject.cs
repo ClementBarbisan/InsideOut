@@ -15,8 +15,9 @@ public class BreakableObject:MonoBehaviour{
 	public float explosiveForce = 350.0f; 			//How much random force applied to each fragment
 	public float durability = 5.0f; 				//How much physical force the object can handle before it breaks
 	public ParticleSystem breakParticles;			//Assign particle system to apear when object breaks
-	public bool mouseClickDestroy;					//Mouse Click breaks the object
-	Transform fragmentd;							//Stores the fragmented object after break
+	public bool mouseClickDestroy;                  //Mouse Click breaks the object
+    public bool brokeOntouch;
+    Transform fragmentd;							//Stores the fragmented object after break
 	bool broken;                                    //Determines if the object has been broken or not 
     public bool isDestroy = false;
 
@@ -26,7 +27,7 @@ public class BreakableObject:MonoBehaviour{
     }
 
     public void OnCollisionEnter(Collision collision) {
-	    if (collision.relativeVelocity.magnitude > durability) {
+	    if (collision.relativeVelocity.magnitude > durability || brokeOntouch) {
 	        triggerBreak();
 	    }
 	}
@@ -77,6 +78,12 @@ public class BreakableObject:MonoBehaviour{
 	        if (transform.FindChild("particles") != null) transform.FindChild("particles").GetComponent<ParticleEmitter>().emit = false;
 	        StartCoroutine(removeColliders());
 	        StartCoroutine(removeRigids());
+            if (Scenario.useFingers)
+            {
+                Scenario.instance.stepsAction[Scenario.step](new RaycastHit(), true);
+                if (Scenario.step < (int)Scenario.Steps.End)
+                    Scenario.instance.stepsAction[Scenario.step](new RaycastHit(), true);
+            }
             isDestroy = true;
             if (waitForDestroy > 0)
             { // destroys fragments after "waitForDestroy" delay

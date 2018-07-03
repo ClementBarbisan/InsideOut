@@ -3,14 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class InsideBox : MonoBehaviour {
+    public Vector3[] sizeCollider;
     private WindowOnVideo window;
+    private BoxCollider coll;
+
 	// Use this for initialization
 	void Start () {
         window = GetComponentInParent<WindowOnVideo>();
-	}
-	
-	// Update is called once per frame
-	void Update () {
+        coll = GetComponent<BoxCollider>();
+        if (Scenario.useFingers)
+            coll.size = sizeCollider[1];
+        else
+            coll.size = sizeCollider[0];
+    }
+
+    // Update is called once per frame
+    void Update () {
 		
 	}
 

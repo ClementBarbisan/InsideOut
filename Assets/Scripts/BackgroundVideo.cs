@@ -24,7 +24,7 @@ public class BackgroundVideo : MonoBehaviour
         transform.position = new Vector3(0, 0, transform.localScale.z / 2 / Mathf.Tan(Mathf.Deg2Rad * (Camera.main.fieldOfView / 2)) * 10);
         if (backgroundPlane.Material.mainTexture != null && render.material.mainTexture == null)
             render.material.mainTexture = backgroundPlane.Material.mainTexture;
-        if (Scenario.step == (int)Scenario.Steps.Started && render.material != distord)
+        if (Scenario.step >= (int)Scenario.Steps.Started && render.material != distord && !Scenario.instance.debugWindow)
         {
             render.material = distord;
             render.material.mainTexture = backgroundPlane.Material.mainTexture;

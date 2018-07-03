@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Vuforia;
 
 public class Scenario : MonoBehaviour {
 
@@ -14,13 +15,14 @@ public class Scenario : MonoBehaviour {
     }
 
     public delegate void Func(RaycastHit hit, bool force = false);
-
+    public static Scenario instance;
     public static bool useFingers = false;
     public static int step = 0;
 
     public bool debugWindow = true;
     public GameObject[] activationSteps;
-    private Func[] stepsAction;
+    public Func[] stepsAction;
+    private ObjectTargetBehaviour objectTarget;
 
     IEnumerator WaitToDestroyingItem(BreakableObject objectBreak)
     {
@@ -29,49 +31,87 @@ public class Scenario : MonoBehaviour {
         //activationSteps[step].SetActive(false);
         step++;
         activationSteps[step].SetActive(true);
+        if (useFingers)
+            activationSteps[step].GetComponentInChildren<WindowOnVideo>().gameObject.transform.SetParent(objectTarget.gameObject.transform);
     }
 
     void StartInside(RaycastHit hit, bool force = false)
     {
         if (force || hit.collider.tag == ((Steps)step).ToString())
         {
-            BreakableObject objectBreakable = activationSteps[step].GetComponentInChildren<BreakableObject>();
-            objectBreakable.ClickToDestroy();
-            StartCoroutine(WaitToDestroyingItem(objectBreakable));
+            if (!useFingers)
+            {
+                BreakableObject objectBreakable = activationSteps[step].GetComponentInChildren<BreakableObject>();
+                objectBreakable.ClickToDestroy();
+                StartCoroutine(WaitToDestroyingItem(objectBreakable));
+            }
+            else
+            {
+                step++;
+                activationSteps[step].SetActive(true);
+                if (useFingers)
+                {
+                    WindowOnVideo window = activationSteps[step].GetComponentInChildren<WindowOnVideo>();
+                    window.gameObject.transform.SetParent(objectTarget.gameObject.transform, false);
+                    window.transform.rotation = Quaternion.Euler(new Vector3(270, 0, 180));
+                }
+            }
         }
     }
 
-    void TakeInHand(RaycastHit hit, bool force = false)
+    public void TakeInHand(RaycastHit hit, bool force = false)
     {
         if (force || hit.collider.tag == ((Steps)step).ToString())
         {
-            activationSteps[step].GetComponentInChildren<WindowOnVideo>().gameObject.transform.SetParent(Camera.main.transform);
+            if (!useFingers)
+                activationSteps[step].GetComponentInChildren<WindowOnVideo>().gameObject.transform.SetParent(Camera.main.transform);
             step++;
             activationSteps[step].SetActive(true);
         }
     }
 
-    void End(RaycastHit hit, bool force = false)
+    public void End(RaycastHit hit, bool force = false)
     {
         if (force || (hit.collider.tag == ((Steps)step).ToString() && hit.collider.GetComponentInChildren<SwitchMaterials>().isBreakable))
         {
-            activationSteps[step].GetComponentInChildren<BreakableObject>().ClickToDestroy();
-            //activationSteps[step].SetActive(false);
-            Camera.main.GetComponentInChildren<WindowOnVideo>().gameObject.SetActive(false);
+            if (!useFingers)
+            {
+                activationSteps[step].GetComponentInChildren<BreakableObject>().ClickToDestroy();
+                //activationSteps[step].SetActive(false);
+                Camera.main.GetComponentInChildren<WindowOnVideo>().gameObject.SetActive(false);
+            }
+            else
+            {
+                objectTarget.GetComponentInChildren<WindowOnVideo>().gameObject.SetActive(false);
+            }
             step++;
-            SceneManager.LoadScene(2);
+            SceneManager.LoadSceneAsync(2);
         }
     }
 
-    // Use this for initialization
-    void Start () {
+    private void Awake()
+    {
+        instance = this;
         step = 0;
+        objectTarget = FindObjectOfType<ObjectTargetBehaviour>();
         if (PlayerPrefs.HasKey("version"))
         {
             if (PlayerPrefs.GetString("version") == "Fingers")
                 useFingers = true;
             else
+            {
                 useFingers = false;
+            }
+        }
+    }
+
+    // Use this for initialization
+    void Start () {
+       
+        if (!useFingers)
+        {
+            objectTarget.GetComponent<Manager>().child.SetActive(false);
+            objectTarget.gameObject.SetActive(false);
         }
         stepsAction = new Func[3];
         stepsAction[0] = StartInside;
@@ -80,8 +120,7 @@ public class Scenario : MonoBehaviour {
         if (debugWindow)
         {
             stepsAction[step](new RaycastHit(), true);
-            step = 1;
-            //stepsAction[step](new RaycastHit(), true);
+            stepsAction[step](new RaycastHit(), true);
             return;
         }
         activationSteps[step].SetActive(true);
