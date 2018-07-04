@@ -53,7 +53,7 @@ public class Scenario : MonoBehaviour {
                 {
                     objectTarget.transform.GetChild(0).gameObject.SetActive(false);
                     WindowOnVideo window = activationSteps[step].GetComponentInChildren<WindowOnVideo>();
-                    window.transform.position = new Vector3(-1f, 0.5f, 0f);
+                    window.transform.position = new Vector3(-0.75f, 0.5f, 0f);
                     window.gameObject.transform.SetParent(objectTarget.gameObject.transform, false);
                     window.transform.rotation = Quaternion.Euler(new Vector3(270, 0, 180));
                 }
@@ -112,7 +112,6 @@ public class Scenario : MonoBehaviour {
        
         if (!useFingers)
         {
-            objectTarget.GetComponent<Manager>().childCollider.SetActive(false);
             objectTarget.gameObject.SetActive(false);
         }
         stepsAction = new Func[3];

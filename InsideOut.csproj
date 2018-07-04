@@ -230,12 +230,13 @@
     <Compile Include="Assets\Breakable Objects\Scripts\Demo\Rotator.cs" />
     <Compile Include="Assets\Scripts\AttackingScript.cs" />
     <Compile Include="Assets\Scripts\BackgroundVideo.cs" />
+    <Compile Include="Assets\Scripts\BreakVase.cs" />
     <Compile Include="Assets\Scripts\ImageTargetBehaviourCustom.cs" />
     <Compile Include="Assets\Scripts\InsideBox.cs" />
     <Compile Include="Assets\Scripts\Intro.cs" />
     <Compile Include="Assets\Scripts\KeyManager.cs" />
-    <Compile Include="Assets\Scripts\Manager.cs" />
     <Compile Include="Assets\Scripts\MovingScript.cs" />
+    <Compile Include="Assets\Scripts\RaycastToBreak.cs" />
     <Compile Include="Assets\Scripts\Scenario.cs" />
     <Compile Include="Assets\Scripts\SwitchMaterials.cs" />
     <Compile Include="Assets\Scripts\WindowOnVideo.cs" />

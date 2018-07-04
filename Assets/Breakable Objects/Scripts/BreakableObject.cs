@@ -34,10 +34,10 @@ public class BreakableObject:MonoBehaviour{
 
     public void ClickToDestroy()
     {
-        if (mouseClickDestroy)
-        {
+        //if (mouseClickDestroy)
+        //{
             triggerBreak();
-        }
+        //}
     }
 
  //   public void OnMouseDown() {
