@@ -15,7 +15,7 @@ public class TrackingContinuity : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (GetComponentInChildren<WindowOnVideo>())
+        if (GetComponentInChildren<WindowOnVideo>() && window == null)
             window = GetComponentInChildren<WindowOnVideo>();
         if (window != null && objectTarget.CurrentStatus == TrackableBehaviour.Status.TRACKED)
         {

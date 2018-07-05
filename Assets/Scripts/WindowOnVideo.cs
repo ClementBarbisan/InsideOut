@@ -56,7 +56,7 @@ public class WindowOnVideo : MonoBehaviour {
             return;
         //Smooth movement to the center of the screen
         if (Scenario.Instance.step == (int)Scenario.Steps.End && !Scenario.Instance.useFingers
-            && transform.position != Camera.main.transform.position + Camera.main.transform.forward * 4.5f || transform.rotation != Quaternion.Euler(new Vector3(270, 180, 0)))
+            && (transform.position != Camera.main.transform.position + Camera.main.transform.forward * 4.5f || transform.rotation != Quaternion.Euler(new Vector3(270, 180, 0))))
         {
             float step = speed * Time.deltaTime;
             transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(new Vector3(270, 180, 0)), step * 35);
