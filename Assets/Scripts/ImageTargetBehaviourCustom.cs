@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Vuforia;
 
+//Custom class of ImageTargetBehaviour to activate random model in a list
 public class ImageTargetBehaviourCustom : ImageTargetBehaviour {
     public GameObject[] models;
     private AttackingScript attackScript;
@@ -63,6 +64,7 @@ public class ImageTargetBehaviourCustom : ImageTargetBehaviour {
 
     // Update is called once per frame
     void Update () {
+        //Fix for extended tracking to not have more than one model at the same time
         if (currentIndex > -1)
         {
             for (int i = 0; i < models.Length; i++)

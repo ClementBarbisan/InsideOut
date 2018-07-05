@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+//Use for switching materials distord/normal
 public class SwitchMaterials : MonoBehaviour {
     public Material[] initialMaterials;
     public Material[] overrideMaterial;
+    //Activate interaction for vases
     public bool isBreakable = false;
     private Renderer render;
     private WindowOnVideo window;

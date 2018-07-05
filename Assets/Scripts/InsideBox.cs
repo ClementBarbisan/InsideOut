@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//BoxCollider use to activate/deactivate custom shaders
 public class InsideBox : MonoBehaviour {
     public Vector3[] sizeCollider;
     private WindowOnVideo window;
@@ -11,7 +12,7 @@ public class InsideBox : MonoBehaviour {
 	void Start () {
         window = GetComponentInParent<WindowOnVideo>();
         coll = GetComponent<BoxCollider>();
-        if (Scenario.useFingers)
+        if (Scenario.Instance.useFingers)
             coll.size = sizeCollider[1];
         else
             coll.size = sizeCollider[0];

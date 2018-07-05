@@ -128,17 +128,7 @@ PlayerSettings:
     16:9: 0
     Others: 0
   bundleVersion: 1.0
-  preloadedAssets:
-  - {fileID: 1000011593744314, guid: 67f0474ce7d8d344fa04ba561d36d761, type: 2}
-  - {fileID: 1000011659465104, guid: e3e8e33af43da834294d5f9a02da77e7, type: 2}
-  - {fileID: 1000013767804016, guid: c334a7c41936e764391ae93ab0e1981d, type: 2}
-  - {fileID: 1000012979649092, guid: 9c8e6b52a146b2d4994f42592a19bba0, type: 2}
-  - {fileID: 100004, guid: 7d8ab22ae73151745bb28321c8a3baaa, type: 2}
-  - {fileID: 1709489377097302, guid: 9e4a70fcb38f3d14da6a162fb222da1c, type: 2}
-  - {fileID: 100000, guid: 1cccdd11badbe7e4696d5ef95cd4e847, type: 2}
-  - {fileID: 1619671593845034, guid: f6ca3b9ad074c354cabec8de9493ad66, type: 2}
-  - {fileID: 100000, guid: b572d47148a2f5749989d996cef8eaeb, type: 2}
-  - {fileID: 1467416003038106, guid: 1c811fe1ff9da774d8fff020927f1a70, type: 2}
+  preloadedAssets: []
   metroInputSource: 0
   m_HolographicPauseOnTrackingLoss: 1
   xboxOneDisableKinectGpuReservation: 0
@@ -177,7 +167,7 @@ PlayerSettings:
   CreateWallpaper: 0
   APKExpansionFiles: 0
   keepLoadedShadersAlive: 1
-  StripUnusedMeshComponents: 0
+  StripUnusedMeshComponents: 1
   VertexChannelCompressionMask:
     serializedVersion: 2
     m_Bits: 238
@@ -262,7 +252,7 @@ PlayerSettings:
   m_BuildTargetGraphicsAPIs:
   - m_BuildTarget: AndroidPlayer
     m_APIs: 080000000b00000015000000
-    m_Automatic: 0
+    m_Automatic: 1
   m_BuildTargetVRSettings: []
   m_BuildTargetEnableVuforiaSettings:
   - m_BuildTarget: Android

@@ -5,5 +5,6 @@
     <ImageTarget name="vaseEndMark" size="15.000000 13.557377" />
     <ImageTarget name="vaseBeginMark" size="15.000000 12.772622" />
     <ImageTarget name="windowMark" size="0.130000 0.068064" />
+    <CylinderTarget name="CylinderMark" sideLength="4.000000"/>
   </Tracking>
 </QCARConfig>

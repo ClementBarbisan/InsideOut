@@ -215,6 +215,9 @@
     <Reference Include="UnityEngine.SpatialTracking">
       <HintPath>D:/Program Files/Unity_2017/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
     </Reference>
+    <Reference Include="Google.ProtocolBuffers">
+      <HintPath>Assets/GoogleVR/Plugins/Google.ProtocolBuffers.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.Analytics">
       <HintPath>C:/ProgramData/Unity/cache/packages/packages.unity.com/com.unity.analytics@1.0.1/UnityEngine.Analytics.dll</HintPath>
     </Reference>
@@ -239,6 +242,7 @@
     <Compile Include="Assets\Scripts\RaycastToBreak.cs" />
     <Compile Include="Assets\Scripts\Scenario.cs" />
     <Compile Include="Assets\Scripts\SwitchMaterials.cs" />
+    <Compile Include="Assets\Scripts\TrackingContinuity.cs" />
     <Compile Include="Assets\Scripts\WindowOnVideo.cs" />
     <Compile Include="Assets\Vuforia\Scripts\DefaultInitializationErrorHandler.cs" />
     <Compile Include="Assets\Vuforia\Scripts\DefaultSmartTerrainEventHandler.cs" />

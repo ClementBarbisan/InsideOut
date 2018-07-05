@@ -16,15 +16,10 @@ public class BreakableObject:MonoBehaviour{
 	public float durability = 5.0f; 				//How much physical force the object can handle before it breaks
 	public ParticleSystem breakParticles;			//Assign particle system to apear when object breaks
 	public bool mouseClickDestroy;                  //Mouse Click breaks the object
-    public bool brokeOntouch;
+    public bool brokeOntouch;                       //Break when collide
     Transform fragmentd;							//Stores the fragmented object after break
 	bool broken;                                    //Determines if the object has been broken or not 
     public bool isDestroy = false;
-
-    private void Start()
-    {
-        mouseClickDestroy = !Scenario.useFingers;
-    }
 
     public void OnCollisionEnter(Collision collision) {
 	    if (collision.relativeVelocity.magnitude > durability || brokeOntouch) {
@@ -34,10 +29,10 @@ public class BreakableObject:MonoBehaviour{
 
     public void ClickToDestroy()
     {
-        //if (mouseClickDestroy)
-        //{
+        if (mouseClickDestroy)
+        {
             triggerBreak();
-        //}
+        }
     }
 
  //   public void OnMouseDown() {
@@ -78,11 +73,12 @@ public class BreakableObject:MonoBehaviour{
 	        if (transform.FindChild("particles") != null) transform.FindChild("particles").GetComponent<ParticleEmitter>().emit = false;
 	        StartCoroutine(removeColliders());
 	        StartCoroutine(removeRigids());
-            if (Scenario.useFingers)
+            if (Scenario.Instance.useFingers)
             {
-                Scenario.instance.stepsAction[Scenario.step](new RaycastHit(), true);
-                if (Scenario.step < (int)Scenario.Steps.End)
-                    Scenario.instance.stepsAction[Scenario.step](new RaycastHit(), true);
+                //Next steps
+                Scenario.Instance.stepsAction[Scenario.Instance.step](new RaycastHit(), true);
+                if (Scenario.Instance.step < (int)Scenario.Steps.End)
+                    Scenario.Instance.stepsAction[Scenario.Instance.step](new RaycastHit(), true);
             }
             isDestroy = true;
             if (waitForDestroy > 0)

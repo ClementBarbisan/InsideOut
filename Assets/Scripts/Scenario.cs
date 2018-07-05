@@ -15,20 +15,26 @@ public class Scenario : MonoBehaviour {
     }
 
     public delegate void Func(RaycastHit hit, bool force = false);
-    public static Scenario instance;
-    public static bool useFingers = false;
-    public static int step = 0;
+    public static Scenario Instance;
 
-    public bool debugWindow = true;
+    //Use tracking Object or not
+    public bool useFingers = false;
+    //Step of scenario
+    public int step = 0;
+    //Debug windowOnVideo
+    public bool debugWindow = false;
+    //GameObject to activate at each step
     public GameObject[] activationSteps;
+    //Functions calls at each step
     public Func[] stepsAction;
+    //Fingers specific behaviour
     private ObjectTargetBehaviour objectTarget;
 
+    //Wait for the vase to be destroyed before activate next step
     IEnumerator WaitToDestroyingItem(BreakableObject objectBreak)
     {
         while (!objectBreak.isDestroy)
             yield return null;
-        //activationSteps[step].SetActive(false);
         step++;
         activationSteps[step].SetActive(true);
         if (useFingers)
@@ -51,9 +57,11 @@ public class Scenario : MonoBehaviour {
                 activationSteps[step].SetActive(true);
                 if (useFingers)
                 {
+                    //Deactivate boxCollider
                     objectTarget.transform.GetChild(0).gameObject.SetActive(false);
                     WindowOnVideo window = activationSteps[step].GetComponentInChildren<WindowOnVideo>();
                     window.transform.position = new Vector3(-0.75f, 0.5f, 0f);
+                    //Set window on video to be tracked by ObjectTrackingBehaviour
                     window.gameObject.transform.SetParent(objectTarget.gameObject.transform, false);
                     window.transform.rotation = Quaternion.Euler(new Vector3(270, 0, 180));
                 }
@@ -79,7 +87,6 @@ public class Scenario : MonoBehaviour {
             if (!useFingers)
             {
                 activationSteps[step].GetComponentInChildren<BreakableObject>().ClickToDestroy();
-                //activationSteps[step].SetActive(false);
                 Camera.main.GetComponentInChildren<WindowOnVideo>().gameObject.SetActive(false);
             }
             else
@@ -93,9 +100,11 @@ public class Scenario : MonoBehaviour {
 
     private void Awake()
     {
-        instance = this;
+        Vuforia.VuforiaRuntime.Instance.InitVuforia();
+        Instance = this;
         step = 0;
         objectTarget = FindObjectOfType<ObjectTargetBehaviour>();
+        //Get version to use
         if (PlayerPrefs.HasKey("version"))
         {
             if (PlayerPrefs.GetString("version") == "Fingers")
@@ -118,6 +127,7 @@ public class Scenario : MonoBehaviour {
         stepsAction[0] = StartInside;
         stepsAction[1] = TakeInHand;
         stepsAction[2] = End;
+        //Test for calibrate window
         if (debugWindow)
         {
             stepsAction[step](new RaycastHit(), true);

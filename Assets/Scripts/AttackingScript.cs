@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//Use to attack the player(no impact just animation)
 public class AttackingScript : MonoBehaviour {
     public GameObject currentEnemy = null;
     public float distanceAttack = 2.5f;
@@ -21,6 +22,7 @@ public class AttackingScript : MonoBehaviour {
             if (Mathf.Abs(currentEnemy.transform.rotation.eulerAngles.y - attendedRotation.eulerAngles.y) > 20f)
             {
                 float step = speed * Time.deltaTime;
+                //Look at the player
                 attendedRotation = Quaternion.LookRotation(Camera.main.transform.position - currentEnemy.transform.parent.position);
                 if (currentEnemy.transform.rotation.eulerAngles.y > attendedRotation.y)
                     currentEnemy.transform.Rotate(0, (currentEnemy.transform.rotation.eulerAngles.y - attendedRotation.y) * step, 0);

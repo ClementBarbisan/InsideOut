@@ -192,6 +192,7 @@
 		void vert(inout appdata_full v, out Input o) {
 			UNITY_INITIALIZE_OUTPUT(Input, o);
 			fixed4 valueBump = tex2Dlod(_BumpMap, float4(v.texcoord.xy, 0, 0));
+			//Create noise on vertex
 			v.vertex.x += _SinTime.y * _CosTime.z * rand(float2(v.vertex.x, v.vertex.x)) / 10 * valueBump.x;
 			v.vertex.y += _SinTime.z * _CosTime.y * rand(float2(v.vertex.y, v.vertex.y)) / 10 * valueBump.y;
 			v.vertex.z += _SinTime.y * _CosTime.z * rand(float2(v.vertex.z, v.vertex.z)) / 10 * valueBump.z;
