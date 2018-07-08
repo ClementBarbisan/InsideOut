@@ -258,6 +258,7 @@
     <None Include="Assets\Shaders\DistordShader.shader" />
     <None Include="Assets\Shaders\DistordShaderVertex.shader" />
     <None Include="Assets\Shaders\DoubleSidedUnlit.shader" />
+    <None Include="Assets\Shaders\RGBImage.shader" />
     <None Include="Assets\StreamingAssets\Vuforia\InsideOut.xml" />
     <None Include="Assets\StreamingAssets\Vuforia\InsideOut_OT.xml" />
     <None Include="Assets\StreamingAssets\Vuforia\VuforiaMars_Images.xml" />

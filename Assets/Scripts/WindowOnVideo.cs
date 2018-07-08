@@ -62,25 +62,25 @@ public class WindowOnVideo : MonoBehaviour {
             transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(new Vector3(270, 180, 0)), step * 35);
             transform.position += ((Camera.main.transform.position + Camera.main.transform.forward * 4.5f) - transform.position) * step;
         }
-        //compute scale texture
-        if (!Scenario.Instance.useFingers)
-            scale = limits.y / transform.position.z;
-        else
-            scale = Mathf.Clamp01(limits.y / transform.parent.position.z);
-        render.material.mainTextureScale = new Vector2(scale, scale);
-        //Compute offset texture
-        if (!Scenario.Instance.useFingers)
-        {
-            offsetX = 0.5f * (1 - scale);
-            offsetY = 0.5f * (1 - scale);
-        }
-        else
-        {
-            //Formulae are some guesswork
-            offsetX = Mathf.Clamp01(0.5f * (1 - scale) + (transform.position.x * transform.parent.localScale.x) / (size.x * (1 - scale)) + (transform.parent.position.x * transform.localScale.x) / (size.x * (1 - scale)));
-            offsetY = Mathf.Clamp01(0.5f * (1 - scale) - (transform.position.y * transform.parent.localScale.z) / (size.y * (1 - scale)) - (transform.parent.position.y * transform.localScale.z) / (size.y * (1 - scale)));
-        }
-        render.material.mainTextureOffset = new Vector2(offsetX, offsetY);
+        ////compute scale texture
+        //if (!Scenario.Instance.useFingers)
+        //    scale = limits.y / transform.position.z;
+        //else
+        //    scale = Mathf.Clamp01(limits.y / transform.parent.position.z);
+        //render.material.mainTextureScale = new Vector2(scale, scale);
+        ////Compute offset texture
+        //if (!Scenario.Instance.useFingers)
+        //{
+        //    offsetX = 0.5f * (1 - scale);
+        //    offsetY = 0.5f * (1 - scale);
+        //}
+        //else
+        //{
+        //    //Formulae are some guesswork
+        //    offsetX = Mathf.Clamp01(0.5f * (1 - scale) + (transform.position.x * transform.parent.localScale.x) / (size.x * (1 - scale)) + (transform.parent.position.x * transform.localScale.x) / (size.x * (1 - scale)));
+        //    offsetY = Mathf.Clamp01(0.5f * (1 - scale) - (transform.position.y * transform.parent.localScale.z) / (size.y * (1 - scale)) - (transform.parent.position.y * transform.localScale.z) / (size.y * (1 - scale)));
+        //}
+        //render.material.mainTextureOffset = new Vector2(offsetX, offsetY);
     }
 
     
