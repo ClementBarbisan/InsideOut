@@ -24,7 +24,9 @@ public class BackgroundVideo : MonoBehaviour
     {
         //calcul position to fill the screen (by default backgroundPlane change fov)
         transform.position = new Vector3(0, 0, transform.localScale.z / 2 / Mathf.Tan(Mathf.Deg2Rad * (Camera.main.fieldOfView / 2)) * 10);
-        if (backgroundPlane.Material.mainTexture != null && render.material.mainTexture == null)
+        if (backgroundPlane == null)
+            backgroundPlane = Camera.main.GetComponentInChildren<BackgroundPlaneBehaviour>();
+        if (backgroundPlane != null && backgroundPlane.Material != null && backgroundPlane.Material.mainTexture != null && render.material.mainTexture == null)
             render.material.mainTexture = backgroundPlane.Material.mainTexture;
         if (Scenario.Instance.step >= (int)Scenario.Steps.Started && render.material != distord && !Scenario.Instance.debugWindow)
         {

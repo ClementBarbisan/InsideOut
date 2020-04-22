@@ -24,11 +24,11 @@ public class ImageTargetBehaviourCustom : ImageTargetBehaviour {
         }
 	}
 
-    public override void OnTrackerUpdate(Status newStatus)
+    public override void OnTrackerUpdate(Status newStatus, StatusInfo infos)
     {
-        base.OnTrackerUpdate(newStatus);
+        base.OnTrackerUpdate(newStatus, infos);
         
-        if (newStatus == Status.TRACKED && currentIndex == -1)
+        if (infos == StatusInfo.NORMAL && currentIndex == -1)
         {
             currentIndex = Random.Range(0, models.Length);
             for (int i = 0; i < models.Length; i++)
@@ -47,7 +47,7 @@ public class ImageTargetBehaviourCustom : ImageTargetBehaviour {
                 }
             }
         }
-        else if ((newStatus == Status.NOT_FOUND || newStatus == Status.UNDEFINED || newStatus == Status.UNKNOWN) && currentIndex > -1)
+        else if ((infos != StatusInfo.NORMAL) && currentIndex > -1)
         {
             for (int i = 0; i < models.Length; i++)
             {

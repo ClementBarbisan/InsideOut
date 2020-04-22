@@ -43,6 +43,8 @@ public class WindowOnVideo : MonoBehaviour {
     void Update () {
         //Update maximum position z due to BackgroundPlaneBehaviour
         limits.x = background.transform.position.z;
+        if (backgroundPlane == null)
+            backgroundPlane = Camera.main.GetComponentInChildren<BackgroundPlaneBehaviour>();
         if (backgroundPlane.Material.mainTexture != null && webcam == null)
             webcam = backgroundPlane.Material.mainTexture;
         if (Scenario.Instance.step > (int)Scenario.Steps.Started && render.material.mainTexture != webcam)

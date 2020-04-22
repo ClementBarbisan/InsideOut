@@ -70,7 +70,7 @@ public class BreakableObject:MonoBehaviour{
 	            child.GetComponent<Rigidbody>().AddTorque(Random.Range(-explosiveForce, explosiveForce), Random.Range(-explosiveForce, explosiveForce), Random.Range(-explosiveForce, explosiveForce));
 	        }
 			//transform.position.y -=1000;	// Positions the object out of view to avoid further interaction
-	        if (transform.FindChild("particles") != null) transform.FindChild("particles").GetComponent<ParticleEmitter>().emit = false;
+	        if (transform.FindChild("particles") != null) transform.FindChild("particles").GetComponent<ParticleSystem>().Stop();
 	        StartCoroutine(removeColliders());
 	        StartCoroutine(removeRigids());
             if (Scenario.Instance.useFingers)
